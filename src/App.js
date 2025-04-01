@@ -1,13 +1,13 @@
-import './App.css';
-import Header from './Components/Header/Header';
-import Test1 from './Components/Test/Test1';
+import "./App.css";
+import Header from "./Components/Header/Header";
+import Test1 from "./Components/Test/Test1";
 import Test2 from "./Components/Test/Test2";
+import CarouselEffect from "./Components/Carousel/CarouselEffect";
 function App() {
   return (
     <div className="App">
-      <Header/>
-      {/* <Test1 /> */}
-      {/* <Test2 /> */}
+      <Header />
+      <CarouselEffect />
     </div>
   );
 }
