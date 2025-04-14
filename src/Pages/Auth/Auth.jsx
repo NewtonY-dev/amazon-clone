@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import classes from "./SignUp.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../Utility/firebase";
 import {
   signInWithEmailAndPassword,
@@ -8,12 +8,18 @@ import {
 } from "firebase/auth";
 import { DataContext } from "../../Components/DataProvider/DataProvider";
 import { Type } from "../../Utility/action.type";
+import { ClipLoader } from "react-spinners";
 function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState({
+    signIn: false,
+    signUp: false,
+  });
 
   const [{ user }, dispatch] = useContext(DataContext);
+  const navigate = useNavigate();
 
   // console.log(user);
 
@@ -24,26 +30,34 @@ function Auth() {
     // console.log(e.target.name);
     if (e.target.name == "signin") {
       // firebase auth
+      setLoading({ ...loading, signIn: true });
       signInWithEmailAndPassword(auth, email, password)
         .then((userInfo) => {
           dispatch({
             type: Type.SET_USER,
             user: userInfo.user,
           });
+          setLoading({ ...loading, signIn: false });
+          navigate("/");
         })
         .catch((err) => {
-          console.log(err);
+          setError(err.message);
+          setLoading({ ...loading, signIn: false });
         });
     } else {
+      setLoading({ ...loading, signUp: true });
       createUserWithEmailAndPassword(auth, email, password)
         .then((userInfo) => {
           dispatch({
             type: Type.SET_USER,
             user: userInfo.user,
           });
+          setLoading({ ...loading, signUp: false });
+          navigate("/");
         })
         .catch((err) => {
-          console.log(err);
+          setError(err.message);
+          setLoading({ ...loading, signUp: false });
         });
     }
   };
@@ -87,7 +101,11 @@ function Auth() {
             onClick={authHandler}
             className={classes.login_signInButton}
           >
-            Sign In
+            {loading.signIn ? (
+              <ClipLoader color="black" size={15} />
+            ) : (
+              "Sign In"
+            )}
           </button>
         </form>
 
@@ -105,8 +123,15 @@ function Auth() {
           onClick={authHandler}
           className={classes.login_registerButton}
         >
-          Create your Amazon Account
+          {loading.signUp ? (
+            <ClipLoader color="black" size={15} />
+          ) : (
+            "Create your Amazon Account"
+          )}
         </button>
+        {error && (
+          <small style={{ paddingTop: "5px", color: "red" }}>{error}</small>
+        )}
       </div>
     </section>
   );
