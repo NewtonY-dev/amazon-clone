@@ -42,7 +42,6 @@ function Payment() {
         url: `/payment/create?total=${total * 100}`,
       });
 
-      console.log(response.data);
       const clientSecret = response.data?.clientSecret;
 
       // 2. client or react side confirmation
@@ -52,7 +51,6 @@ function Payment() {
         },
       });
 
-      console.log(paymentIntent);
       // 3. after the confirmation --> order firestore database save, clear basket
 
       await db
