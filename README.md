@@ -29,6 +29,7 @@ This project is a clone of the Amazon e-commerce platform, built using React and
 
 ## Directory Structure
 
+```
 └── newtony-dev-amazon-clone/
 ├── README.md
 ├── firebase.json
@@ -106,6 +107,7 @@ This project is a clone of the Amazon e-commerce platform, built using React and
 ├── action.type.js
 ├── firebase.js         # Firebase configuration
 └── reducer.js          # Reducer for Context API
+```
 
 ## Installation
 
